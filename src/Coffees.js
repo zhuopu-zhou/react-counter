@@ -2,15 +2,22 @@ import react, { useState, useEffect } from "react";
 
 function Coffees() {
   const [coffeeList, setCoffeeList] = useState();
+  const [temperature, setTemperature] = useState("hot");
   useEffect(() => {
-    fetch("https://api.sampleapis.com/coffee/hot")
+    fetch(`https://api.sampleapis.com/coffee/${temperature}`)
       .then((response) => response.json())
-      .then((data) => setCoffeeList(data))
+      .then((data) => {
+        console.log(data);
+        setCoffeeList(data);
+      })
       .catch((err) => console.error(err));
-  }, []);
+  }, [temperature]);
   return (
     <div>
-      <h1>Coffees</h1>
+      <h1>Coffee Recipes</h1>
+      <button onClick={() => setTemperature("hot")}>Hot</button>
+      <button onClick={() => setTemperature("iced")}>Iced</button>
+
       {coffeeList ? (
         <ol>
           {coffeeList.map((coffee) => {
